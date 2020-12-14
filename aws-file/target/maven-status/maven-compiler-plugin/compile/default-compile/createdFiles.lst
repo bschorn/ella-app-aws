@@ -1,0 +1,4 @@
+org\schorn\ella\aws\file\AWSFileWrite.class
+org\schorn\ella\aws\file\S3Path.class
+org\schorn\ella\aws\file\S3Region.class
+org\schorn\ella\aws\file\S3Files.class
