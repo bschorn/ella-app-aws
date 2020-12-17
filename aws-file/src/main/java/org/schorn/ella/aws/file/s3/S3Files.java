@@ -1,4 +1,4 @@
-package org.schorn.ella.aws.file;
+package org.schorn.ella.aws.file.s3;
 
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
@@ -10,15 +10,13 @@ import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.UncheckedIOException;
+import java.net.URI;
 import java.nio.charset.Charset;
-import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.util.*;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -39,40 +37,8 @@ public class S3Files implements IAppFiles, AutoCloseable {
     }
 
     @Override
-    public boolean isDirectory(Path path) {
-        return false;
-    }
-
-    @Override
-    public boolean isReadable(Path path) {
-        return false;
-    }
-
-    @Override
-    public boolean isWritable(Path path) {
-        return false;
-    }
-
-    @Override
-    public Stream<String> lines(Path path) {
-        S3Path s3Path = S3Path.of(path);
-        GetObjectRequest request = GetObjectRequest.builder().bucket(s3Path.bucket()).key(s3Path.key()).build();
-        String result;
-        try (ResponseInputStream<GetObjectResponse> response = this.defaultRegion.getClient().getObject(request)) {
-            return new BufferedReader(new InputStreamReader(response, Charsets.toCharset("UTF-8"))).lines();
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
-    }
-
-    @Override
-    public Stream<String> lines(Path path, Charset charset) {
-        return null;
-    }
-
-    @Override
-    public Stream<Path> list(Path path) {
-        return null;
+    public Path createPath(String... strings) throws Exception {
+        return Path.of(new URI(String.format("file:///%s", Arrays.asList(strings).stream().collect(Collectors.joining("/")))));
     }
 
     @Override
@@ -109,26 +75,11 @@ public class S3Files implements IAppFiles, AutoCloseable {
     }
 
     @Override
-    public long size(Path path) {
-        return 0;
-    }
-
-    @Override
     public Path write(Path path, byte[] bytes) {
         S3Path s3Path = S3Path.of(path);
         this.defaultRegion.getClient().putObject(PutObjectRequest.builder().bucket(s3Path.bucket()).key(s3Path.key()).build(),
                 RequestBody.fromBytes(bytes));
         return path;
-    }
-
-    @Override
-    public Path write(Path path, Iterable<? extends CharSequence> iterable, Charset charset, OpenOption... openOptions) {
-        return null;
-    }
-
-    @Override
-    public Path write(Path path, Iterable<? extends CharSequence> iterable, OpenOption... openOptions) {
-        return null;
     }
 
     @Override

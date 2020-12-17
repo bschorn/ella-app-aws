@@ -1,4 +1,4 @@
-package org.schorn.ella.aws.file;
+package org.schorn.ella.aws.file.s3;
 
 import software.amazon.awssdk.regions.Region;
 
@@ -9,6 +9,14 @@ import java.util.LinkedList;
 import java.util.StringJoiner;
 
 public class S3Path {
+
+    //arn:aws:s3:us-east-1:071547842341:jane-bank.bank-ref
+    // \aws\s3\us-east-1\071547842341\jane-bank.bank-ref\products\usa-ny
+    //arn:aws:s3:us-east-1:071547842341:JaneBankApp_AccountUpdate.fifo
+    // aws://071547842341@us-east-1/sns/JaneBankApp_AccountUpdate.fifo
+    // \aws\sns\JaneBankApp_AccountUpdate.fifo
+    //"\aws\sns\us-east-1\071547842341\JaneBankApp_AccountUpdate.fifo
+    //String.format("arn:%s:%s:%s:%s:%s", platform, service, region, account, topic)
 
     static public S3Path of(Path path) {
         return new S3Path(path);

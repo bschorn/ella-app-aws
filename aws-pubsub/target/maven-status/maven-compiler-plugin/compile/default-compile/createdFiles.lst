@@ -1,0 +1,5 @@
+org\schorn\ella\aws\pubsub\sns\SNSTopic.class
+org\schorn\ella\aws\pubsub\sns\SNSPublish.class
+org\schorn\ella\aws\pubsub\AWSTopic.class
+org\schorn\ella\aws\pubsub\AWSTopics.class
+org\schorn\ella\aws\pubsub\sns\SNSRegion.class

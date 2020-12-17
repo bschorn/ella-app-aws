@@ -1,0 +1,5 @@
+org\schorn\ella\aws\core\AWSArn$Platform.class
+org\schorn\ella\aws\core\AWSArn$Service.class
+org\schorn\ella\aws\core\AWSArn$1.class
+org\schorn\ella\aws\core\AWSArn.class
+org\schorn\ella\aws\core\AWSConfig.class

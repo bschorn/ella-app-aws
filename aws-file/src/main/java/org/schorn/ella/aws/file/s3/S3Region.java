@@ -1,4 +1,4 @@
-package org.schorn.ella.aws.file;
+package org.schorn.ella.aws.file.s3;
 
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;

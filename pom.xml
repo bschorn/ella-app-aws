@@ -11,6 +11,7 @@
         <module>aws-file</module>
         <module>aws-core</module>
         <module>aws-services</module>
+        <module>aws-pubsub</module>
     </modules>
 
 </project>
