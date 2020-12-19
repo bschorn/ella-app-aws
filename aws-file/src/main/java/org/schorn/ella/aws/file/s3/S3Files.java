@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 /**
  *
  */
-public class S3Files implements IAppFiles, AutoCloseable {
+public class S3Files implements AutoCloseable {
 
     private final S3Region defaultRegion;
     private final Map<Region,S3Region> otherRegions = new HashMap<>();
