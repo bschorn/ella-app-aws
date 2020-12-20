@@ -1,18 +1,12 @@
 package org.schorn.ella.aws.file.s3;
 
-import org.apache.commons.io.IOUtils;
 import org.schorn.ella.app.IFile;
-import org.schorn.ella.aws.core.AWSConfig;
-import software.amazon.awssdk.core.ResponseInputStream;
+import software.amazon.awssdk.core.ResponseBytes;
 import software.amazon.awssdk.services.s3.S3AsyncClient;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 
-import java.net.URI;
-import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.stream.Collectors;
 
 /**
  *
@@ -35,11 +29,11 @@ public class S3File implements IFile, AutoCloseable {
         try {
             S3Path s3Path = S3Path.of(readRequest.getPath());
             GetObjectRequest getObjectRequest = createGetRequest(s3Path.bucket(), s3Path.key());
-            return EllaReadResponse.create(readRequest, syncClient, getObjectRequest);
+            ResponseBytes<GetObjectResponse> objectBytes = syncClient.getObjectAsBytes(getObjectRequest);
+            return EllaReadResponse.create(readRequest.getCharset(), objectBytes);
         } catch (Exception exception) {
-            return EllaReadResponse.create(readRequest, exception);
+            return EllaReadResponse.create(exception);
         }
-        return null;
     }
 
     @Override
@@ -57,10 +51,14 @@ public class S3File implements IFile, AutoCloseable {
     @Override
     public IWriteResponse write(WriteRequest writeRequest) {
         try {
-
+            /*
+            s3Client.putObject(PutObjectRequest.builder().bucket(s3Path.bucket()).key(s3Path.key()).build(),
+                    RequestBody.fromBytes(bytes));
+            */
         } catch (Throwable throwable) {
 
         }
+        return null;
     }
 
     @Override
